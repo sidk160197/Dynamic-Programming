@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            int n = Integer.parseInt(bufferedReader.readLine());
+            int[] num = new int[n];
+            num[0] = 1;
+            int i2 = 0, i3 = 0, i5 = 0;
+            int next_2 = num[i2]*2, next_3 = num[i3]*3, next_5 = num[i5]*5;
+
+            for(int i=1; i<n; i++) {
+                num[i] = Math.min(next_2, Math.min(next_3, next_5));
+
+                if(num[i] == next_2) {
+                    i2++;
+                    next_2 = num[i2]*2;
+                }
+                if(num[i] == next_3) {
+                    i3++;
+                    next_3 = num[i3]*3;
+                }
+                if(num[i] == next_5) {
+                    i5++;
+                    next_5 = num[i5]*5;
+                }
+            }
+            System.out.println(num[n-1]);
+        }
+    }
+}
