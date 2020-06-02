@@ -1,0 +1,28 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.*;
+
+class Practise {
+    public static void main(String[] args) throws IOException {
+        String str1 = "geek", str2 = "gesek";
+        int m = str1.length(), n = str2.length();
+
+        System.out.println(findCost(str1, str2, m-1, n-1));
+    }
+
+    public static int findCost(String str1, String str2, int m, int n) {
+        if(m==0) {
+            return n;
+        }
+        if(n == 0) {
+            return m;
+        }
+        char ch1 = str1.charAt(m), ch2 = str2.charAt(n);
+        if(ch1 == ch2) {
+            return findCost(str1, str2, m-1, n-1);
+        }
+        return 1 + Math.min(findCost(str1, str2, m-1, n), Math.min(findCost(str1, str2, m-1, n-1), findCost(str1, str2, m, n-1)));
+    }
+}
