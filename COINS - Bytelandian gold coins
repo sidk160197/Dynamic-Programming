@@ -1,0 +1,28 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.*;
+
+class Practise {
+    static int[] lookup;
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            int n = Integer.parseInt(bufferedReader.readLine());
+            lookup = new int[n+1];
+            Arrays.fill(lookup, -1);
+            System.out.println(find(n));
+        }
+    }
+
+    public static int find(int n) {
+        if(n<=3)
+            return n;
+        if(lookup[n] == -1) {
+            lookup[n] = find((int)Math.floor(n/2)) + find((int)Math.floor(n/3)) + find((int)Math.floor(n/4));
+        }
+        return lookup[n];
+    }
+}
