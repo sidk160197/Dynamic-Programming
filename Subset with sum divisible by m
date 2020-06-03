@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+//            int n = Integer.parseInt(bufferedReader.readLine());
+            String[] nm = bufferedReader.readLine().split(" ");
+            int n = Integer.parseInt(nm[0]);
+            int m = Integer.parseInt(nm[1]);
+            int[] arr = new int[n];
+            String[] str = bufferedReader.readLine().split(" ");
+            for(int i=0; i<n; i++) {
+                arr[i] = Integer.parseInt(str[i]);
+            }
+
+            if(n>m) {
+                System.out.println("1");
+            } else {
+                boolean[] dp = new boolean[m];
+                Arrays.fill(dp, false);
+
+                for(int i=0; i<n; i++) {
+                    if(dp[0]){
+                        break;
+                    }
+
+                    boolean[] temp = new boolean[m];
+                    Arrays.fill(temp, false);
+
+                    for(int j=0; j<m; j++) {
+                        if(dp[j]) {
+                            if(!dp[(j + arr[i]) % m]) {
+                                temp[(j+arr[i])%m] = true;
+                            }
+                        }
+                    }
+
+                    for(int j=0; j<m; j++) {
+                        if(temp[j])
+                            dp[j] = temp[j];
+                    }
+                    dp[arr[i]%m] = true;
+                }
+                System.out.println(dp[0] ? "1" : "0");
+            }
+        }
+    }
+}
