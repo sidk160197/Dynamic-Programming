@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    static long[][] dp;
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            int n = Integer.parseInt(bufferedReader.readLine());
+            dp = new long[1000][1000];
+            for(long[] a: dp) {
+                Arrays.fill(a, -1);
+            }
+
+            System.out.println(count(n, 0));
+        }
+    }
+
+    public static long count(int n, int diff) {
+        if(Math.abs(diff) > n)
+            return 0;
+
+        if(n==1 && diff == 0)
+            return 2;
+
+        if(n==1 && Math.abs(diff)==1)
+            return 1;
+
+        if(dp[n][n+diff] != -1) {
+            return dp[n][n+diff];
+        }
+
+        long res = ((count(n-1, diff-1)%1000000007) + (2*(count(n-1, diff)%1000000007)%1000000007) + (count(n-1, diff+1)%1000000007)%1000000007);
+        return dp[n][n+diff] = res;
+    }
+}
