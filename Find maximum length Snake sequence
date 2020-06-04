@@ -1,0 +1,64 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.*;
+
+class Practise {
+    public static void main(String[] args) throws IOException {
+        int arr[][] = {{9, 6, 5, 2},
+                {8, 7, 6, 5},
+                {7, 3, 1, 6},
+                {1, 1, 1, 7}};
+        int n = arr.length, m = arr[0].length;
+        fillDP(arr, n, m);
+    }
+
+    public static void fillDP(int[][] arr, int n, int m) {
+        int[][] dp = new int[n][m];
+
+        int max = Integer.MIN_VALUE, maxRow = 0, maxCol = 0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                if(i!=0 || j!=0) {
+                    if(i>0 && Math.abs(arr[i][j]-arr[i-1][j]) == 1) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i-1][j] + 1);
+                        if(dp[i][j] > max) {
+                            max = dp[i][j];
+                            maxRow = i;
+                            maxCol = j;
+                        }
+                    }
+
+                    if(j>0 && Math.abs(arr[i][j-1]-arr[i][j]) == 1) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i][j-1] + 1);
+
+                        if(dp[i][j] > max) {
+                            max = dp[i][j];
+                            maxRow = i;
+                            maxCol = j;
+                        }
+                    }
+                }
+            }
+        }
+        for(int[] a: dp) {
+            System.out.println(Arrays.toString(a));
+        }
+
+        printPath(dp, arr, maxRow, maxCol);
+    }
+
+    public static void printPath(int[][] dp, int[][] arr, int i, int j) {
+        System.out.println(i +" "+ j);
+        while(dp[i][j]!=0) {
+            if(i>0 && dp[i][j]-1 == dp[i-1][j]) {
+                i--;
+                System.out.println(i +" "+ j);
+            } else if(j>0 && dp[i][j]-1 == dp[i][j-1]) {
+                j--;
+                System.out.println(i +" "+ j);
+            }
+        }
+    }
+}
