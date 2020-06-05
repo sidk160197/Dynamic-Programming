@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            String[] xyz = bufferedReader.readLine().split(" ");
+            int x = Integer.parseInt(xyz[0]);
+            int y = Integer.parseInt(xyz[1]);
+            int z = Integer.parseInt(xyz[2]);
+            String[] str = bufferedReader.readLine().split(" ");
+            String str1 = str[0], str2 = str[1], str3 = str[2];
+
+            int[][][] dp = new int[x+1][y+1][z+1];
+
+            for(int i=0; i<=x; i++) {
+                for(int j=0; j<=y; j++) {
+                    for(int k=0; k<=z; k++) {
+                        if(i==0 || j==0 || k==0) {
+                            dp[i][j][k] = 0;
+                        } else {
+                            char ch1 = str1.charAt(i-1), ch2 = str2.charAt(j-1), ch3 = str3.charAt(k-1);
+                            if(ch1 == ch2 && ch1 == ch3) {
+                                dp[i][j][k] = 1 + dp[i-1][j-1][k-1];
+                            } else {
+                                dp[i][j][k] = Math.max(dp[i-1][j][k], Math.max(dp[i][j-1][k], dp[i][j][k-1]));
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println(dp[x][y][z]);
+        }
+    }
+}
