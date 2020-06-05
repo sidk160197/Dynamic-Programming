@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            int n = Integer.parseInt(bufferedReader.readLine());
+            String[] str = bufferedReader.readLine().split(" ");
+            int [] arr = new int[n];
+            for(int i=0; i<n; i++) {
+                arr[i] = Integer.parseInt(str[i]);
+            }
+
+            int[] dp = new int[n];
+            for(int i=0; i<n; i++) {
+                dp[i] = arr[i];
+            }
+//            Arrays.fill(dp, 1);
+
+            for(int i=1; i<n; i++) {
+                for(int j=0; j<i; j++) {
+                    if(arr[i] > arr[j]) {
+                        dp[i] = Math.max(dp[i], dp[j]+arr[i]);
+                    }
+                }
+            }
+            int[] dp1 = new int[n];
+            for(int i=0; i<n; i++) {
+                dp1[i] = arr[i];
+            }
+//            Arrays.fill(dp1, 1);
+            for(int i=n-2; i>=0; i--) {
+                for(int j=n-1; j>i; j--) {
+                    if(arr[i] > arr[j]) {
+                        dp1[i] = Math.max(dp1[i], dp1[j] + arr[i]);
+                    }
+                }
+            }
+//            System.out.println(Arrays.toString(dp));
+//            System.out.println(Arrays.toString(dp1));
+
+            int max = Integer.MIN_VALUE;
+            for(int i=0; i<n; i++) {
+                if(dp[i] + dp1[i] - arr[i] > max) {
+                    max = dp[i] + dp1[i] - arr[i];
+                }
+            }
+//            System.out.println(Arrays.toString(dp));
+//            System.out.println(Arrays.toString(dp1));
+            System.out.println(max);
+        }
+    }
+}
