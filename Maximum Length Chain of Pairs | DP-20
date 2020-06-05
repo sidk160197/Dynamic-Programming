@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.*;
+
+class Practise {
+    static int max;
+    public static void main(String[] args) throws IOException {
+        int n = 5;
+        Pair[] pairs = new Pair[n];
+        pairs[0] = new Pair(5, 24);
+        pairs[1] = new Pair(39, 60);
+        pairs[2] = new Pair(15, 28);
+        pairs[3] = new Pair(27, 40);
+        pairs[4] = new Pair(50, 90);
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+
+        for(int i=1; i<n; i++) {
+            for(int j=0; j<i; j++) {
+                if(pairs[i].a > pairs[j].b) {
+                    dp[i] = Math.max(dp[i], dp[j]+1);
+                }
+            }
+        }
+
+        System.out.println(Arrays.stream(dp).max().getAsInt());
+    }
+}
+
+class Pair {
+    int a, b;
+
+    public Pair(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+}
