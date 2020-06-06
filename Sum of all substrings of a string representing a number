@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            char[] arr = bufferedReader.readLine().toCharArray();
+            int n = arr.length;
+
+            String[][] dp = new String[n+1][n+1];
+            long sum = 0;
+
+            for(int i=1; i<=n; i++) {
+                for(int j=i; j<=n; j++) {
+                    if(i==j) {
+                        dp[i][j] = ""+arr[i-1];
+                    } else {
+                        dp[i][j] = dp[i][j-1] + ""+ arr[j-1];
+                    }
+                    sum += Long.parseLong(dp[i][j]);
+                }
+            }
+            System.out.println(sum);
+        }
+    }
+}
