@@ -1,0 +1,57 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            String[] nw = bufferedReader.readLine().split(" ");
+            int n = Integer.parseInt(nw[0]);
+            int w = Integer.parseInt(nw[1]);
+            String[] str = bufferedReader.readLine().split(" ");
+            int[] arr = new int[n];
+            for(int i=0; i<n; i++) {
+                arr[i] = Integer.parseInt(str[i]);
+            }
+
+            ArrayList<Integer> val = new ArrayList<>();
+            ArrayList<Integer> wt = new ArrayList<>();
+
+            int size = 0;
+            for(int i=0; i<n; i++) {
+                if(arr[i]!=-1) {
+                    val.add(arr[i]);
+                    wt.add(i+1);
+                    size++;
+                }
+            }
+            n = size;
+            int[][] dp = new int[n+1][w+1];
+
+            for(int i=0; i<=w; i++) {
+                dp[0][i] = Integer.MAX_VALUE;
+            }
+
+            for(int i=0; i<=n; i++) {
+                dp[i][0] = 0;
+            }
+
+            for(int i=1; i<=n; i++) {
+                for(int j=1; j<=w; j++) {
+                    if(wt.get(i-1) > j) {
+                        dp[i][j] = dp[i-1][j];
+                    } else {
+                        dp[i][j] = Math.min(dp[i-1][j], dp[i][j-wt.get(i-1)] + val.get(i-1));
+                    }
+                }
+            }
+
+            System.out.println(dp[n][w] == Integer.MAX_VALUE || dp[n][w] < 0 ? "-1" : dp[n][w]);
+        }
+    }
+}
