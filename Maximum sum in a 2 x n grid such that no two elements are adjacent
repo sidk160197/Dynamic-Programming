@@ -1,0 +1,33 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(bufferedReader.readLine());
+        while(t --> 0) {
+            int n = Integer.parseInt(bufferedReader.readLine());
+            int[][] arr = new int[2][n];
+            String[] str1 = bufferedReader.readLine().split(" ");
+            String[] str2 = bufferedReader.readLine().split(" ");
+
+            for(int i=0; i<n; i++) {
+                arr[0][i] = Integer.parseInt(str1[i]);
+                arr[1][i] = Integer.parseInt(str2[i]);
+            }
+            int include = Math.max(arr[0][0], arr[1][0]), exclude = 0, exclude1 = 0;
+
+            for(int j=1; j<n; j++) {
+                exclude1 = Math.max(exclude, include);
+                include = exclude + Math.max(arr[0][j], arr[1][j]);
+                exclude = exclude1;
+            }
+
+            System.out.println(Math.max(exclude, include));
+        }
+    }
+}
